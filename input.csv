@@ -1,0 +1,2 @@
+name,oauth,query,refresh,ids,metrics
+Test Datasource 1,bee05039efe0bb0f0bb007afcc116f94,https://www.googleapis.com/analytics/v3/data/ga?ids=ga:00000001&dimensions=ga:month&metrics=ga:visitors&filters=ga:country==Russia&start-date={date.startOfYear}&end-date={date.today}&max-results=10000,300,ga:47757403,ga:avgTimeOnPage

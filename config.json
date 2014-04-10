@@ -1,0 +1,6 @@
+{
+	"host":"https://test-app.klipfolio.com/api/1",	
+	"user":"ab+klipfolio@klipfolio.com",
+	"pass":"cust0m3r",
+	"input": "input.csv"
+}
