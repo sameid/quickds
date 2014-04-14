@@ -51,7 +51,3 @@ $ python quickds.py my_ds_file.csv
 - Currently the API doesn't expose anything for OAuth tokens. What this means is that when you specify the publicId of the OAuth token in the input.csv file,
 it won't actually use that token, and most likely the report on the creation of that datasource will show an error. For now just specify a publicId of
 a datasource that is using an OAuth token that you want. (Adding OAuth token API support is on the roadmap)
-
-"oauth_provider_id": "google20",
-"oauth_use_header": "1/TpeYFxnn-ah5L7jyFsanlK8AkB8GEsP4UvWuk56pDqo",
-"oauth_user_token": "ya29.AHES6ZQWoSZwFFrf1uWjY5OojaS_wDaiiqx1Umv3XTgbnns"
