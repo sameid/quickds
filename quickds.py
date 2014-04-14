@@ -67,9 +67,9 @@ def create_datasource(data):
                 "advancedQuery": query,
                 "mode":"Advanced",
                 "token_id":m[3]
-##                "oauth_provider_id": "google20",
-##                "oauth_use_header": "1/TpeYFxnn-ah5L7jyFsanlK8AkB8GEsP4UvWuk56pDqo",
-##                "oauth_user_token": "ya29.AHES6ZQWoSZwFFrf1uWjY5OojaS_wDaiiqx1Umv3XTgbnns"
+                "oauth_provider_id": _c['oauth_provider_id'],
+                "oauth_use_header": _c['oauth_use_header'],
+                "oauth_user_token": _c['oauth_user_token']
             }
         }
     headers = { "Content-Type": "application/json"}
