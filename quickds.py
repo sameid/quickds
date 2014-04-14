@@ -54,7 +54,6 @@ def create_datasource(data):
     m = data[:5]
     q = data[5:]
     query = build_query(m[4], q)
-    print query
     payload = {
         "name":m[0],
         "description": "-",
