@@ -1,3 +1,3 @@
-name,format,refresh,oauth,query,ids,metrics,dimension
-Test Datasource 1,csv,300,bee05039efe0bb0f0bb007afcc116f94,https://www.googleapis.com/analytics/v3/data/ga?ids=ga:00000001&dimensions=ga:month&metrics=ga:visitors&filters=ga:country==Russia&start-date={date.startOfYear}&end-date={date.today}&max-results=10000,ga:47757403,ga:avgTimeOnPage,
-Test Datasource 2,csv,300,bee05039efe0bb0f0bb007afcc116f94,https://www.googleapis.com/analytics/v3/data/ga?ids=ga:00000001&dimensions=ga:month&metrics=ga:visitors&filters=ga:country==Russia&start-date={date.startOfYear}&end-date={date.today}&max-results=10000,,,
+name,format,refresh,oauth,query,ids,dimensions,metrics,filters,start-date,end-date,max-results
+ds1,csv,300,bee05039efe0bb0f0bb007afcc116f94,https://www.googleapis.com/analytics/v3/data/ga?ids=*&dimensions=*&metrics=*&filters=*&start-date=*&end-date=*&max-results=*,ga:47757403,ga:visitors,ga:avgTimeOnPage,ga:country==Russia,{date.startOfYear},{date.today},10000
+ds2,csv,300,bee05039efe0bb0f0bb007afcc116f94,https://www.googleapis.com/analytics/v3/data/ga?ids=*&dimensions=*&metrics=*&filters=*&start-date=*&end-date=*&max-results=*,ga:47757403,ga:visitors,ga:avgTimeOnPage,ga:country==Russia,{date.startOfYear},{date.today},10000

@@ -53,7 +53,8 @@ def build_query(query, data):
 def create_datasource(data):
     m = data[:5]
     q = data[5:]
-    query = build_query(m[2], q)
+    query = build_query(m[4], q)
+    print query
     payload = {
         "name":m[0],
         "description": "-",
@@ -66,15 +67,16 @@ def create_datasource(data):
                 "endpoint_url": query,
                 "advancedQuery": query,
                 "mode":"Advanced",
-                "token_id":m[3]
+                "token_id":m[3],
                 "oauth_provider_id": _c['oauth_provider_id'],
                 "oauth_use_header": _c['oauth_use_header'],
                 "oauth_user_token": _c['oauth_user_token']
             }
         }
+    
     headers = { "Content-Type": "application/json"}
     r=_post(req='/datasources', data=payload, headers=headers)
-    _pprint()
+    _pprint(r)
     
 try:
     with open (input_file, 'rt') as f:
