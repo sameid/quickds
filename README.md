@@ -9,15 +9,12 @@ block.
 First thing to do is configure the script using the config.json file.
 
 config.json
-```
+``` javascript
 {
 	"host": "https://test-app.klipfolio.com/api/1",	//environment where datasources will be created
 	"user": "ab+klipfolio@klipfolio.com", //username 
 	"pass": "ihaveallthekeys", //password
 	"input": "input.csv", //datasource configuration file
-        "oauth_provider_id": "google20", //Temporary fix for lack of API exposure
-        "oauth_use_header": "1/TpeYFxnn-ah5L7jyFsanlK8AkB8GEsP4UvWuk56pDqo",//Temporary fix for lack of API exposure
-        "oauth_user_token": "ya29.AHES6ZQWoSZwFFrf1uWjY5OojaS_wDaiiqx1Umv3XTgbnns"//Temporary fix for lack of API exposure
 }
 ```
 

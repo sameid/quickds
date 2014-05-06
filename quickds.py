@@ -5,14 +5,25 @@ import sys
 import urlparse
 import urllib
 
+a = sys.argv
+
+
+if len(a) > 2:
+    print 'Too many arguments provided'
+    print 'Aborting...'
+    sys.exit()
+
+
+
 config = open('./config.json').read()
 _c = json.loads(config) #_c represents configuration
 
 #################
 ## util functions specified with _*
-
 input_file = _c['input']
-
+if len(a) == 2:
+    input_file = a[1]
+    
 def _get(req, host=_c['host']):
     res = requests.get(host+req, auth=(_c['user'],_c['pass']), verify=False)  
     return res.json()
@@ -54,6 +65,16 @@ def create_datasource(data):
     m = data[:5]
     q = data[5:]
     query = build_query(m[4], q)
+    oauth = m[3]
+
+    oauth_ds = _get(req='/datasources/'+oauth+'?full=true')
+    try:
+        props = oauth_ds['data']['properties']
+    except KeyError:
+        print 'Invalid Datasource ID provided in OAuth field in '+ input_file
+        print 'Aborting...'
+        sys.exit()
+        
     payload = {
         "name":m[0],
         "description": "-",
@@ -66,10 +87,10 @@ def create_datasource(data):
                 "endpoint_url": query,
                 "advancedQuery": query,
                 "mode":"Advanced",
-                "token_id":m[3],
-                "oauth_provider_id": _c['oauth_provider_id'],
-                "oauth_use_header": _c['oauth_use_header'],
-                "oauth_user_token": _c['oauth_user_token']
+                "token_id":props['token_id'],
+                "oauth_provider_id": props['oauth_provider_id'],
+                "oauth_use_header": props['oauth_use_header'],
+                "oauth_user_token": props['oauth_user_token']
             }
         }
     
@@ -87,5 +108,6 @@ try:
             else:
                 setup_map = row[5:]
             ignore = False
-except RuntimeError:
-    print 'error'
+except IOError:
+    print 'unable to read ' + input_file
+    print 'Aborting...'
