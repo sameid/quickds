@@ -13,7 +13,14 @@ if len(a) > 2:
     print 'Aborting...'
     sys.exit()
 
+TYPE = 0
+NAME = 1
+FORMAT = 2
+REFRESH = 3
+OAUTH = 4
+QUERY = 5
 
+DYNAMIC = 6
 
 config = open('./config.json').read()
 _c = json.loads(config) #_c represents configuration
@@ -23,13 +30,13 @@ _c = json.loads(config) #_c represents configuration
 input_file = _c['input']
 if len(a) == 2:
     input_file = a[1]
-    
+
 def _get(req, host=_c['host']):
-    res = requests.get(host+req, auth=(_c['user'],_c['pass']), verify=False)  
+    res = requests.get(host+req, auth=(_c['user'],_c['pass']), verify=False)
     return res.json()
 
 def _post(req, data, headers, host=_c['host']):
-    res = requests.post(host+req, auth=(_c['user'],_c['pass']), data=json.dumps(data),headers=headers,verify=False)  
+    res = requests.post(host+req, auth=(_c['user'],_c['pass']), data=json.dumps(data),headers=headers,verify=False)
     return res.json()
 
 def _pprint(data):
@@ -60,44 +67,57 @@ def build_query(query, data):
         value = v
         query = parse_url(query, key, value)
     return query
-    
+
 def create_datasource(data):
-    m = data[:5]
-    q = data[5:]
-    query = build_query(m[4], q)
-    oauth = m[3]
+    m = data[:DYNAMIC]
+    q = data[DYNAMIC:]
+    query = build_query(m[QUERY], q)
+    oauth = m[OAUTH]
     oauth_ds = _get(req='/datasources/'+oauth+'?full=true')
-    _pprint(oauth_ds)
     try:
         props = oauth_ds['data']['properties']
     except KeyError:
         print 'Invalid Datasource ID provided in OAuth field in '+ input_file
         print 'Aborting...'
         sys.exit()
-        
+
+    if m[TYPE] == 'google_analytics':
+        payload_props = {
+              "max_pages":1,
+              "endpoint_url": query,
+              "advancedQuery": query,
+              "mode":"Advanced",
+              "token_id":props['token_id'],
+              "oauth_provider_id": props['oauth_provider_id'],
+              "oauth_use_header": props['oauth_use_header'],
+              "oauth_user_token": props['oauth_user_token']
+              }
+    elif m[TYPE] == 'facebook':
+        payload_props = {
+              "max_pages":1,
+              "endpoint_url": query,
+              "advancedQuery": query,
+              "mode":"Advanced",
+              "token_id":props['token_id'],
+              "oauth_provider_id": props['oauth_provider_id'],
+              "qtype": props['qtype'],
+              "oauth_user_token": props['oauth_user_token']
+              }
+
     payload = {
-        "name":m[0],
+        "name":m[NAME],
         "description": "-",
-        "format":m[1],
-        "connector":"google_analytics",
-        "refresh_interval":int(m[2]),
+        "format":m[FORMAT],
+        "connector":m[TYPE],
+        "refresh_interval":int(m[REFRESH]),
         "is_dynamic":False,
-        "properties":{
-                "max_pages":1,
-                "endpoint_url": query,
-                "advancedQuery": query,
-                "mode":"Advanced",
-                "token_id":props['token_id'],
-                "oauth_provider_id": props['oauth_provider_id'],
-                "oauth_use_header": props['oauth_use_header'],
-                "oauth_user_token": props['oauth_user_token']
-            }
+        "properties":payload_props
         }
-    
+
     headers = { "Content-Type": "application/json"}
     r=_post(req='/datasources', data=payload, headers=headers)
     _pprint(r)
-    
+
 try:
     with open (input_file, 'rt') as f:
         reader = csv.reader(f, delimiter=',')
@@ -106,7 +126,7 @@ try:
             if not ignore:
                 create_datasource(row)
             else:
-                setup_map = row[5:]
+                setup_map = row[DYNAMIC:]
             ignore = False
 except IOError:
     print 'unable to read ' + input_file

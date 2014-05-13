@@ -19,14 +19,14 @@ config.json
 ```
 
 Ensure your datasource configuration file has the datasource creation information that you want.
-- Remember that columns 1 .. 5 (name, format, refresh, oauth, query) are manditory and must maintain order.
-- Columns 6 .. * can be dynamic and must relate to parameters in the "query" column to make any changes to the "query"
+- Remember that columns 1 .. 6 (type, name, format, refresh, oauth, query) are manditory and must maintain order.
+- Columns 7 .. * can be dynamic and must relate to parameters in the "query" column to make any changes to the "query"
 
 input.csv (can be named anything, so long as you specify it in the config.json file)
 ```
-name,format,refresh,oauth,query,ids,dimension,metrics,filters,start-date,end-date,max-results
-ds1,csv,300,bee05039efe0bb0f0bb007afcc116f94,https://www.googleapis.com/analytics/v3/data/ga?ids=*&dimensions=*&metrics=*&filters=*&start-date=*&end-date=*&max-results=*,ga:47757403,ga:visitors,ga:avgTimeOnPage,ga:country==Russia,{date.startOfYear},{date.today},10000
-ds2,csv,300,bee05039efe0bb0f0bb007afcc116f94,https://www.googleapis.com/analytics/v3/data/ga?ids=*&dimensions=*&metrics=*&filters=*&start-date=*&end-date=*&max-results=*,ga:47757403,ga:visitors,ga:avgTimeOnPage,ga:country==Russia,{date.startOfYear},{date.today},10000
+type, name, format, refresh, oauth, query, ids, dimension, metrics, filters, start-date, end-date, max-results
+google_analytics,ds1,csv,300,bee05039efe0bb0f0bb007afcc116f94,https://www.googleapis.com/analytics/v3/data/ga?ids=*&dimensions=*&metrics=*&filters=*&start-date=*&end-date=*&max-results=*,ga:47757403,ga:visitors,ga:avgTimeOnPage,ga:country==Russia,{date.startOfYear},{date.today},10000
+google_analytics,ds2,csv,300,bee05039efe0bb0f0bb007afcc116f94,https://www.googleapis.com/analytics/v3/data/ga?ids=*&dimensions=*&metrics=*&filters=*&start-date=*&end-date=*&max-results=*,ga:47757403,ga:visitors,ga:avgTimeOnPage,ga:country==Russia,{date.startOfYear},{date.today},10000
 ```
 
 #### Running the script ####
