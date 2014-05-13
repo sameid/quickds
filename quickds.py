@@ -66,8 +66,8 @@ def create_datasource(data):
     q = data[5:]
     query = build_query(m[4], q)
     oauth = m[3]
-
     oauth_ds = _get(req='/datasources/'+oauth+'?full=true')
+    _pprint(oauth_ds)
     try:
         props = oauth_ds['data']['properties']
     except KeyError:
